@@ -27,9 +27,10 @@ button.go{background:var(--hit);border-color:var(--hit);color:#222;font-weight:6
 .lg i{display:inline-block;width:12px;height:12px;border-radius:2px;margin-right:4px;vertical-align:-1px}
 #wrap{overflow:auto;height:calc(100vh - 190px);min-height:420px;padding:20px}
 #map{width:max-content;margin:0 auto}
-.stage{background:var(--stage);padding:20px 40px;text-align:center;border-radius:4px;margin:0 auto 18px;width:50%;min-width:320px}
-.stage b{font-size:30px;letter-spacing:2px;display:block}
-.stage small{color:var(--mute)}
+.stage{background:var(--stage);display:flex;flex-direction:column;align-items:center;justify-content:center;height:calc(var(--s)*5);text-align:center;border-radius:4px;margin:0 auto calc(var(--s)*3);width:55%;overflow:hidden}
+.stage b{font-size:max(9px,calc(var(--s)*1.5));letter-spacing:2px;line-height:1.2;display:block}
+.stage small{color:var(--mute);font-size:max(6px,calc(var(--s)*.5))}
+.sm .stage small{display:none}
 .r{display:flex;align-items:center;height:var(--s)}
 .lb{width:22px;text-align:center;font-size:11px;color:var(--mute)}
 .s,.e{width:var(--s);height:var(--s);flex:none}
@@ -56,6 +57,32 @@ th:first-child{text-align:left;color:var(--mute);font-weight:400}
 .s[data-t=B],.tB{background:#8b4fe8;outline-color:#8b4fe8;color:#fff}
 .s[data-t=C],.tC{background:#e8368a;outline-color:#e8368a;color:#fff}
 .s[data-t=D],.tD{background:#12a150;outline-color:#12a150;color:#fff}
+html{height:100dvh}
+body{display:flex;flex-direction:column;height:100%}
+header{flex:none}
+#wrap{flex:1;min-height:0;height:auto;padding:16px 12px 230px}
+.sm .s{border-width:0;box-shadow:inset 0 0 0 .5px var(--bg)}
+.sm .lb{width:12px;font-size:7px;line-height:1}
+.sm .lb:not(.k5){visibility:hidden}
+.sm .ai,.sm .sl{font-size:5px}
+.sm .s.hit,.sm .s[data-t]{outline-width:3px;z-index:2;box-shadow:none}
+.mo{display:none}
+button,input{touch-action:manipulation}
+.sm .s{color:transparent}
+.sm .s[data-t]{color:#fff}
+@media (max-width:600px){
+ header{padding:8px 10px}
+ h1{font-size:14px;margin-bottom:6px}
+ .row{gap:6px}
+ input{min-width:0;flex:1 1 60px;padding:8px}
+ button{padding:8px 10px;font-size:14px}
+ .mo{display:inline-block}
+ .hint{display:none;font-size:12px;line-height:1.4}
+ .hint.open{display:block}
+ .lg{gap:8px;font-size:12px;margin-top:6px}
+ #cmp{padding:8px 10px calc(8px + env(safe-area-inset-bottom,0px));max-height:42vh;font-size:13px}
+ th,td{padding:3px 6px}
+}
 </style>
 </head>
 <body>
@@ -69,6 +96,8 @@ th:first-child{text-align:left;color:var(--mute);font-weight:400}
     <button id="clr">清除</button>
     <button id="zo" aria-label="縮小">－</button>
     <button id="zi" aria-label="放大">＋</button>
+    <button id="fit">全覽</button>
+    <button id="hb" class="mo">說明</button>
   </div>
   <div class="hint">點座位或按「加入比較」，最多可同時比較 4 個座位。<br>單號在左、雙號在右，越靠中間號碼越小。座位僅供參考，實際依現場為主。<br>@vvs.tw.kiki</div>
   <div class="lg"><span><i style="background:var(--vip)"></i>VIP 6200</span><span><i style="background:var(--a)"></i>A 5800</span><span><i style="background:var(--b)"></i>B 4800</span><span><i style="background:var(--c)"></i>C 3800</span></div>
@@ -96,12 +125,12 @@ const cell=(r,n)=>{
 };
 let h='<div class="stage"><small>MINHO CONCERT  MEAN:of FERAT in TAIPEI</small><b>STAGE</b></div>';
 for(let r=1;r<=34;r++){
-  h+='<div class="r'+(r===25||r===32?' gap':'')+'"><span class="lb">'+pad(r)+'</span>';
+  h+='<div class="r'+(r===25||r===32?' gap':'')+'"><span class="lb'+(r%5===0||r===1?' k5':'')+'">'+pad(r)+'</span>';
   for(let n=69;n>=1;n-=2)h+=cell(r,n);
   const c=r>=11&&r<=14?'st':r>=32?'foh':'';
   h+='<div class="ai '+c+'">'+(r===12?'<span class="sl">小舞台</span>':r===33?'FOH':'')+'</div>';
   for(let n=2;n<=70;n+=2)h+=cell(r,n);
-  h+='<span class="lb">'+pad(r)+'</span></div>';
+  h+='<span class="lb'+(r%5===0||r===1?' k5':'')+'">'+pad(r)+'</span></div>';
 }
 const map=document.getElementById('map');
 map.innerHTML=h;
@@ -151,10 +180,16 @@ document.getElementById('add').onclick=()=>{
   if(el)toggle(el,true);
 };
 let c=20;
-function zoom(d){c=Math.min(40,Math.max(10,c+d));document.documentElement.style.setProperty('--s',c+'px')}
-document.getElementById('zi').onclick=()=>zoom(4);
-document.getElementById('zo').onclick=()=>zoom(-4);
-if(innerWidth<700)zoom(-6);
+function setS(v){c=Math.min(40,Math.max(3,v));document.documentElement.style.setProperty('--s',c+'px');document.documentElement.classList.toggle('sm',c<12)}
+function zoom(d){setS(c*(d>0?1.4:1/1.4))}
+document.getElementById('zi').onclick=()=>{manual=true;zoom(4)};
+document.getElementById('zo').onclick=()=>{manual=true;zoom(-4)};
+document.getElementById('fit').onclick=()=>{manual=false;fit()};
+document.getElementById('hb').onclick=()=>document.querySelector('.hint').classList.toggle('open');
+let manual=false;
+function fit(){const W=document.getElementById('wrap').clientWidth-24;let s=(W-44)/74;if(s<12)s=(W-24)/74;setS(Math.floor(s*10)/10)}
+if(innerWidth<700)fit();
+addEventListener('resize',()=>{if(manual)return;innerWidth<700?fit():setS(20)});
 </script>
 </body>
 </html>
