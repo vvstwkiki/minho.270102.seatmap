@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>MINHO 台北場座位圖</title>
+<style>
+:root{--bg:#f4f5f8;--ink:#1d2030;--mute:#7b8094;--panel:#fff;--line:#d7dae4;--stage:#cfd1d8;--vip:#2f8fe6;--a:#5a65c9;--b:#35b5ad;--c:#bb4a78;--hit:#ffd23f;--s:20px;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#14161f;--ink:#e9ebf3;--mute:#8c92a8;--panel:#1d2030;--line:#343850;--stage:#3a3d4d;--vip:#2674c0;--a:#4a54ad;--b:#2a948d;--c:#9c3d63}}
+:root[data-theme="dark"]{--bg:#14161f;--ink:#e9ebf3;--mute:#8c92a8;--panel:#1d2030;--line:#343850;--stage:#3a3d4d;--vip:#2674c0;--a:#4a54ad;--b:#2a948d;--c:#9c3d63}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 "Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--panel)}
+header{position:sticky;top:0;z-index:5;background:var(--panel);border-bottom:1px solid var(--line);padding:12px 14px}
+h1{font-size:15px;margin:0 0 8px;font-weight:600}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+input{flex:1;min-width:80px;max-width:140px;font:inherit;padding:9px 12px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink)}
+input:focus-visible,button:focus-visible{outline:2px solid var(--hit);outline-offset:1px}
+button{font:inherit;padding:9px 14px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);cursor:pointer}
+button.go{background:var(--hit);border-color:var(--hit);color:#222;font-weight:600}
+.hint{font-size:13px;color:var(--mute);margin-top:6px}
+#res{font-size:14px;margin-top:6px;display:flex;gap:6px;flex-wrap:wrap}
+#res span{padding:2px 10px;border-radius:99px;background:var(--hit);color:#222}
+#res span.bad{background:#c0493b;color:#fff}
+.lg{display:flex;gap:12px;flex-wrap:wrap;font-size:13px;margin-top:8px}
+.lg i{display:inline-block;width:12px;height:12px;border-radius:2px;margin-right:4px;vertical-align:-1px}
+#wrap{overflow:auto;height:calc(100vh - 190px);min-height:420px;padding:20px}
+#map{width:max-content;margin:0 auto}
+.stage{background:var(--stage);padding:20px 40px;text-align:center;border-radius:4px;margin:0 auto 18px;width:50%;min-width:320px}
+.stage b{font-size:30px;letter-spacing:2px;display:block}
+.stage small{color:var(--mute)}
+.r{display:flex;align-items:center;height:var(--s)}
+.lb{width:22px;text-align:center;font-size:11px;color:var(--mute)}
+.s,.e{width:var(--s);height:var(--s);flex:none}
+.s{border:1px solid var(--bg);color:#fff;font-size:calc(var(--s)*.4);display:flex;align-items:center;justify-content:center;cursor:pointer;user-select:none}
+.zVIP{background:var(--vip)}.zA{background:var(--a)}.zB{background:var(--b)}.zC{background:var(--c)}
+.s.hit{background:var(--hit);color:#222;font-weight:700;outline:2px solid var(--hit);outline-offset:1px;position:relative;z-index:1}
+.ai{width:calc(var(--s)*4);height:var(--s);flex:none;text-align:center;font-size:11px;line-height:var(--s);color:var(--mute)}
+.ai.st,.ai.foh{background:var(--stage)}
+.e.g{background:var(--stage)}
+.gap{margin-top:calc(var(--s)*1.3)}
+.ai{position:relative}
+.sl{position:absolute;z-index:2;left:0;right:0;top:100%;transform:translateY(-50%);line-height:var(--s);color:var(--ink);font-weight:600;white-space:nowrap}
+#wrap{padding-bottom:230px}
+#cmp{display:none;position:fixed;left:0;right:0;bottom:0;z-index:6;background:var(--panel);border-top:1px solid var(--line);padding:10px 14px calc(10px + env(safe-area-inset-bottom,0px));max-height:45vh;overflow:auto;font-size:14px}
+#cmp.on{display:block}
+.ch{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+.ct{overflow-x:auto}
+table{border-collapse:collapse;width:100%}
+th,td{padding:4px 8px;border-bottom:1px solid var(--line);text-align:center;white-space:nowrap}
+th:first-child{text-align:left;color:var(--mute);font-weight:400}
+.cn{font-size:13px;color:var(--mute);margin-top:6px}
+.s[data-t]{color:#fff;font-weight:700;outline:2px solid;outline-offset:1px;position:relative;z-index:1}
+.s[data-t=A],.tA{background:#ff7a1a;outline-color:#ff7a1a;color:#fff}
+.s[data-t=B],.tB{background:#8b4fe8;outline-color:#8b4fe8;color:#fff}
+.s[data-t=C],.tC{background:#e8368a;outline-color:#e8368a;color:#fff}
+.s[data-t=D],.tD{background:#12a150;outline-color:#12a150;color:#fff}
+</style>
+</head>
+<body>
+<header>
+  <h1>MINHO 台北場座位圖（2027/01/02 台大體育館）</h1>
+  <div class="row">
+    <input id="qr" type="number" inputmode="numeric" min="1" max="34" placeholder="排數" aria-label="排數" autocomplete="off">
+    <input id="qs" type="number" inputmode="numeric" min="1" max="70" placeholder="座號" aria-label="座號" autocomplete="off">
+    <button class="go" id="go">找座位</button>
+    <button id="add">加入比較</button>
+    <button id="clr">清除</button>
+    <button id="zo" aria-label="縮小">－</button>
+    <button id="zi" aria-label="放大">＋</button>
+  </div>
+  <div class="hint">點座位或按「加入比較」，最多可同時比較 4 個座位。<br>單號在左、雙號在右，越靠中間號碼越小。座位僅供參考，實際依現場為主。<br>@vvs.tw.kiki</div>
+  <div class="lg"><span><i style="background:var(--vip)"></i>VIP 6200</span><span><i style="background:var(--a)"></i>A 5800</span><span><i style="background:var(--b)"></i>B 4800</span><span><i style="background:var(--c)"></i>C 3800</span></div>
+  <div id="res"></div>
+</header>
+<div id="wrap"><div id="map"></div></div>
+<div id="cmp"></div>
+<script>
+const pad=n=>String(n).padStart(2,'0');
+// 依官方示意圖：c 為從中間數來第幾個座位（1~35）
+// 排 1–8：VIP 上方寬區 c1–20，A 區斜角 c21 起；排 9–16：VIP 窄條 c7–13、小舞台 c1–6、A c14+；排 17–24：VIP c1–13、A c14+；排 25–31：B；排 32–34：C c18+、FOH c1–14
+function zone(r,n){
+  const c=n%2?(n+1)/2:n/2;
+  if(r<=8)return c<=20?'VIP':(c<=Math.min(35,21+2*(r-1))?'A':null);
+  if(r<=16)return c>=3&&c<=13?'VIP':(c>=14?'A':null);
+  if(r<=24)return c<=13?'VIP':'A';
+  if(r<=31)return 'B';
+  return c>=17?'C':null;
+}
+const cell=(r,n)=>{
+  const z=zone(r,n);
+  if(!z){const k=n%2?(n+1)/2:n/2;return '<div class="e'+((false||(r>=32&&k<=14))?' g':'')+'"></div>'}
+  const nm=z+(n%2?1:2)+' 區';const m=z==='C'?n-32:n;
+  return '<div class="s z'+z+'" data-n="'+n+'" data-k="'+pad(r)+'-'+pad(m)+'" data-z="'+nm+'" title="'+nm+' '+r+' 排 '+m+' 號">'+pad(m)+'</div>';
+};
+let h='<div class="stage"><small>MINHO CONCERT  MEAN:of FERAT in TAIPEI</small><b>STAGE</b></div>';
+for(let r=1;r<=34;r++){
+  h+='<div class="r'+(r===25||r===32?' gap':'')+'"><span class="lb">'+pad(r)+'</span>';
+  for(let n=69;n>=1;n-=2)h+=cell(r,n);
+  const c=r>=11&&r<=14?'st':r>=32?'foh':'';
+  h+='<div class="ai '+c+'">'+(r===12?'<span class="sl">小舞台</span>':r===33?'FOH':'')+'</div>';
+  for(let n=2;n<=70;n+=2)h+=cell(r,n);
+  h+='<span class="lb">'+pad(r)+'</span></div>';
+}
+const map=document.getElementById('map');
+map.innerHTML=h;
+const res=document.getElementById('res'),qr=document.getElementById('qr'),qs=document.getElementById('qs');
+function clearAll(){document.querySelectorAll('.hit').forEach(e=>e.classList.remove('hit'));res.innerHTML=''}
+function find(){
+  clearAll();
+  const r=+qr.value,n=+qs.value;
+  const el=r&&n&&map.querySelector('[data-k="'+pad(r)+'-'+pad(n)+'"]');
+  const sp=document.createElement('span');
+  if(el){el.classList.add('hit');sp.textContent=el.dataset.z+' '+r+' 排 '+n+' 號';el.scrollIntoView({block:'center',inline:'center',behavior:'smooth'})}
+  else{sp.className='bad';sp.textContent=(r&&n)?'沒有第 '+r+' 排 '+n+' 號這個座位':'請輸入排數和座號'}
+  res.appendChild(sp);
+}
+document.getElementById('go').onclick=find;
+[qr,qs].forEach(i=>i.addEventListener('keydown',e=>{if(e.key==='Enter')find()}));
+document.getElementById('clr').onclick=()=>{qr.value='';qs.value='';clearAll();qr.focus()};
+const TAG=['A','B','C','D'],PRICE={VIP:6200,A:5800,B:4800,C:3800},list=[],cp=document.getElementById('cmp');
+function say(t){res.innerHTML='';const sp=document.createElement('span');sp.className='bad';sp.textContent=t;res.appendChild(sp)}
+function toggle(el,addOnly){
+  const i=list.indexOf(el);
+  if(i>=0){if(addOnly)return;list.splice(i,1)}
+  else{if(list.length>=4){say('最多同時比較 4 個座位');return}list.push(el)}
+  draw();
+}
+function info(el){const n=+el.dataset.n,k=el.dataset.k,z=el.dataset.z.replace(/\d 區/,''),r=+k.slice(0,2),c=n%2?(n+1)/2:n/2,dx=c+1.5,dy=r-12.5;return{r,m:+k.slice(3),c,left:n%2===1,z:el.dataset.z,p:PRICE[z],f:r<=8?'背面':r>=17?'正面':'側面（'+(n%2?'左':'右')+'）'}}
+function draw(){
+  document.querySelectorAll('.s[data-t]').forEach(e=>{delete e.dataset.t;e.textContent=e.dataset.k.slice(3)});
+  list.forEach((e,i)=>{e.dataset.t=TAG[i];e.textContent=TAG[i]});
+  if(!list.length){cp.className='';cp.innerHTML='';return}
+  const d=list.map(info),R=d.map(x=>x.r),C=d.map(x=>x.c);
+  const r0=Math.min(...R),r1=Math.max(...R),c0=Math.min(...C),c1=Math.max(...C),fr=x=>x.f==='正面'?3:x.f==='背面'?1:2,F=d.map(fr),f0=Math.min(...F),f1=Math.max(...F);
+  const row=(t,f)=>'<tr><th>'+t+'</th>'+d.map(x=>'<td>'+f(x)+'</td>').join('')+'</tr>';
+  const notes=[];
+  for(let i=0;i<d.length;i++)for(let j=i+1;j<d.length;j++){const a=d[i],b=d[j];if(a.r===b.r)notes.push(TAG[i]+'、'+TAG[j]+(Math.abs(a.m-b.m)===2&&a.left===b.left&&a.z===b.z?' 是相鄰座位':' 在同一排'))}
+  cp.className='on';
+  cp.innerHTML='<div class="ch"><b>座位比較</b><button id="cc">清除比較</button></div><div class="ct"><table><tr><th></th>'+d.map((x,i)=>'<th class="t'+TAG[i]+'">'+TAG[i]+'</th>').join('')+'</tr>'+
+    row('區域',x=>x.z)+row('票價',x=>'NT$'+x.p)+row('排數',x=>x.r+' 排'+(r0<r1&&x.r===r0?' ✓':''))+row('看小舞台',x=>x.f+(f0<f1&&fr(x)===f1?' ✓':''))+row('座號',x=>x.m+' 號')+row('方位',x=>x.left?'左側':'右側')+
+    row('離中線',x=>(x.c===1?'緊鄰走道':(x.c-1)+' 個座位')+(c0<c1&&x.c===c0?' ✓':''))+'</table></div>'+
+    (notes.length?'<div class="cn">'+notes.join('；')+'</div>':'')+'<div class="cn">✓ 代表較前面、較靠近中線，或看小舞台的面向較好（正面＞側面＞背面）。看小舞台的面向：第 1–8 排為背面、第 9–16 排為側面、第 17 排以後為正面，是假設小舞台正面朝向後方估算，僅供參考。</div>';
+  document.getElementById('cc').onclick=()=>{list.length=0;draw()};
+}
+map.addEventListener('click',e=>{const s=e.target.closest('.s');if(s)toggle(s)});
+document.getElementById('add').onclick=()=>{
+  find();
+  const el=map.querySelector('[data-k="'+pad(+qr.value)+'-'+pad(+qs.value)+'"]');
+  if(el)toggle(el,true);
+};
+let c=20;
+function zoom(d){c=Math.min(40,Math.max(10,c+d));document.documentElement.style.setProperty('--s',c+'px')}
+document.getElementById('zi').onclick=()=>zoom(4);
+document.getElementById('zo').onclick=()=>zoom(-4);
+if(innerWidth<700)zoom(-6);
+</script>
+</body>
+</html>
