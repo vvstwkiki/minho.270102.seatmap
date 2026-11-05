@@ -132,7 +132,7 @@ const cell=(r,n)=>{
   const nm=z+(n%2?1:2)+' 區';const m=n;
   return '<div class="s z'+z+(inf?' inf':'')+'" data-n="'+n+'" data-k="'+pad(r)+'-'+pad(m)+'" data-z="'+nm+'" title="'+nm+' '+r+' 排 '+m+' 號">'+pad(m)+'</div>';
 };
-let h='<div class="stage"><small>MINHO CONCERT  MEAN:of FERAT in TAIPEI</small><b>STAGE</b></div>';
+let h='<div class="stage"><small>MINHO CONCERT  MEAN:of FERAL in TAIPEI</small><b>STAGE</b></div>';
 const ROWS=[...Array(32).keys()].map(i=>i+1);
 for(const r of ROWS){
   h+='<div class="r'+(r===26||r===30?' gap':'')+'"><span class="lb'+(r%5===0||r===1?' k5':'')+'">'+pad(r)+'</span>';
