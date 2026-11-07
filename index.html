@@ -87,13 +87,14 @@ button,input{touch-action:manipulation}
 .s.inf{opacity:1}
 .tg{font-size:13px;display:flex;align-items:center;gap:4px;color:var(--mute);white-space:nowrap}
 .tg input{flex:none;min-width:0;max-width:none;padding:0}
+.n{font-style:normal;color:var(--mute);font-size:12px}
 </style>
 </head>
 <body>
 <header>
   <h1>MINHO 台北場座位圖（2027/01/02 台大體育館）</h1>
   <div class="row">
-    <input id="qr" type="number" inputmode="numeric" min="1" max="32" placeholder="排數" aria-label="排數" autocomplete="off">
+    <input id="qr" type="number" inputmode="numeric" min="1" max="33" placeholder="排數" aria-label="排數" autocomplete="off">
     <input id="qs" type="number" inputmode="numeric" min="1" max="76" placeholder="座號" aria-label="座號" autocomplete="off">
     <button class="go" id="go">找座位</button>
     <button id="add">加入比較</button>
@@ -104,7 +105,7 @@ button,input{touch-action:manipulation}
     <button id="hb" class="mo">說明</button>
   </div>
   <div class="hint">點座位或按「加入比較」，最多可同時比較 4 個座位。<br>單號在左、雙號在右，越靠中間號碼越小。座位僅供參考，實際依現場為主。<br>@vvs.tw.kiki</div>
-  <div class="lg"><span><i style="background:var(--vip)"></i>VIP 6200</span><span><i style="background:var(--a)"></i>A 5800</span><span><i style="background:var(--b)"></i>B 4800</span><span><i style="background:var(--c)"></i>C 3800</span></div>
+  <div class="lg"><span><i style="background:var(--vip)"></i>VIP 6200 <em class="n" data-z="VIP"></em></span><span><i style="background:var(--a)"></i>A 5800 <em class="n" data-z="A"></em></span><span><i style="background:var(--b)"></i>B 4800 <em class="n" data-z="B"></em></span><span><i style="background:var(--c)"></i>C 3800 <em class="n" data-z="C"></em></span></div>
   <div id="res"></div>
 </header>
 <div id="wrap"><div id="map"></div></div>
@@ -116,8 +117,8 @@ const pad=n=>String(n).padStart(2,'0');
 function zone(r,n){
   const c=n%2?(n+1)/2:n/2;
   if(r<=9)return c<=22?'VIP':(c<=23+Math.round((r-1)*15/8)?'A':null);
-  if(r<=17)return c>=3&&c<=14?'VIP':(c>=15?'A':null);
-  if(r<=25)return c<=14?'VIP':'A';
+  if(r<=17)return c>=8&&c<=12?'VIP':(c>=13?'A':null);
+  if(r<=25)return c<=12?'VIP':'A';
   if(r<=29)return 'B';
   return c>=20?'C':null;
 }
@@ -132,18 +133,19 @@ const cell=(r,n)=>{
   const nm=z+(n%2?1:2)+' 區';const m=n;
   return '<div class="s z'+z+(inf?' inf':'')+'" data-n="'+n+'" data-k="'+pad(r)+'-'+pad(m)+'" data-z="'+nm+'" title="'+nm+' '+r+' 排 '+m+' 號">'+pad(m)+'</div>';
 };
-let h='<div class="stage"><small>MINHO CONCERT  MEAN:of FERAL in TAIPEI</small><b>STAGE</b></div>';
-const ROWS=[...Array(32).keys()].map(i=>i+1);
+let h='<div class="stage"><small>MINHO CONCERT MEAN:of FERAL in TAIPEI</small><b>STAGE</b></div>';
+const ROWS=[...Array(33).keys()].map(i=>i+1);
 for(const r of ROWS){
   h+='<div class="r'+(r===26||r===30?' gap':'')+'"><span class="lb'+(r%5===0||r===1?' k5':'')+'">'+pad(r)+'</span>';
   for(let n=75;n>=1;n-=2)h+=cell(r,n);
   const c=r>=12&&r<=15?'st':r>=30?'foh':'';
-  h+='<div class="ai '+c+'">'+(r===13?'<span class="sl">小舞台</span>':r===31?'FOH':'')+'</div>';
+  h+='<div class="ai '+c+'">'+(r===13?'<span class="sl">小舞台</span>':r===31?'<span class="sl">FOH</span>':'')+'</div>';
   for(let n=2;n<=76;n+=2)h+=cell(r,n);
   h+='<span class="lb'+(r%5===0||r===1?' k5':'')+'">'+pad(r)+'</span></div>';
 }
 const map=document.getElementById('map');
 map.innerHTML=h;
+document.querySelectorAll('.n').forEach(e=>{e.textContent='約 '+map.querySelectorAll('.s.z'+e.dataset.z).length+' 個'+(e.dataset.z==='C'?'（推估）':'')});
 const res=document.getElementById('res'),qr=document.getElementById('qr'),qs=document.getElementById('qs');
 function clearAll(){document.querySelectorAll('.hit').forEach(e=>e.classList.remove('hit'));res.innerHTML=''}
 function find(){
